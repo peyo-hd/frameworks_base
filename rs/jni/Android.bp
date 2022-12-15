@@ -28,7 +28,6 @@ cc_library_shared {
         "libandroid",
         "libandroid_runtime",
         "libandroidfw",
-        "libRS",
         "libcutils",
         "libhwui",
         "liblog",
@@ -43,18 +42,10 @@ cc_library_shared {
         "libbase_headers",
     ],
 
-    include_dirs: ["frameworks/rs"],
-
     cflags: [
         "-Wno-unused-parameter",
         "-Wunused",
         "-Wunreachable-code",
         "-Wno-deprecated-declarations",
     ],
-
-    target: {
-        android_riscv64: {
-            enabled: false,
-        },
-    },
 }
