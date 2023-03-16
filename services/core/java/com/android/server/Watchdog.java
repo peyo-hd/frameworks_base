@@ -736,7 +736,7 @@ public class Watchdog implements Dumpable {
             boolean doWaitedHalfDump = false;
             // The value of mWatchdogTimeoutMillis might change while we are executing the loop.
             // We store the current value to use a consistent value for all handlers.
-            final long watchdogTimeoutMillis = mWatchdogTimeoutMillis;
+            final long watchdogTimeoutMillis = mWatchdogTimeoutMillis  * Build.HW_TIMEOUT_MULTIPLIER;
             final long checkIntervalMillis = watchdogTimeoutMillis / 2;
             final ArrayList<Integer> pids;
             synchronized (mLock) {
@@ -748,7 +748,7 @@ public class Watchdog implements Dumpable {
                     // We pick the watchdog to apply every time we reschedule the checkers. The
                     // default timeout might have changed since the last run.
                     hc.checker().scheduleCheckLocked(hc.customTimeoutMillis()
-                            .orElse(watchdogTimeoutMillis * Build.HW_TIMEOUT_MULTIPLIER));
+                            .orElse(watchdogTimeoutMillis));
                 }
 
                 if (debuggerWasConnected > 0) {
@@ -786,7 +786,7 @@ public class Watchdog implements Dumpable {
                     continue;
                 } else if (waitState == WAITED_HALF) {
                     if (!waitedHalf) {
-                        Slog.i(TAG, "WAITED_HALF");
+                        Slog.i(TAG, "WAITED_HALF " + checkIntervalMillis);
                         waitedHalf = true;
                         // We've waited half, but we'd need to do the stack trace dump w/o the lock.
                         blockedCheckers = getCheckersWithStateLocked(WAITED_HALF);
