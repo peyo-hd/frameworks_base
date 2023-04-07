@@ -572,7 +572,7 @@ public final class PermissionPolicyService extends SystemService {
                 LocalServices.getService(PackageManagerInternal.class);
         final PermissionManagerServiceInternal permissionManagerInternal =
                 LocalServices.getService(PermissionManagerServiceInternal.class);
-        if (packageManagerInternal.isPermissionUpgradeNeeded(userId)) {
+        if (false/*packageManagerInternal.isPermissionUpgradeNeeded(userId)*/) {
             if (DEBUG) Slog.i(LOG_TAG, "defaultPermsWereGrantedSinceBoot(" + userId + ")");
 
             // Now call into the permission controller to apply policy around permissions
